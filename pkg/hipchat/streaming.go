@@ -10,14 +10,14 @@ import (
 //Stream reprensents a chat message stream.
 type Stream struct {
 	client *xmpp.Client
-	C      chan xmpp.Chat
+	C      chan *Message
 	run    bool
 }
 
 func (c *Client) newStream(mentionname string) *Stream {
 	stream := Stream{
 		client: c.Client,
-		C:      make(chan xmpp.Chat),
+		C:      make(chan *Message),
 	}
 
 	stream.start(mentionname)
@@ -39,7 +39,8 @@ func (s *Stream) loop(mentionname string) {
 
 		if chatMsg, ok := message.(xmpp.Chat); ok {
 			if strings.HasPrefix(chatMsg.Text, "@"+mentionname) {
-				s.C <- chatMsg
+				m := NewMessage(chatMsg.To, chatMsg.From, chatMsg.Type, chatMsg.Text)
+				s.C <- m
 			}
 		}
 	}

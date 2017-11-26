@@ -30,4 +30,8 @@ func (r *Room) Join() {
 	r.client.JoinMUC(r.roomJid, r.fullname)
 }
 
+func (r *Room) Send(message string) {
+	r.client.Send(xmpp.Chat{To: r.roomJid, From: r.fullname, Type: "groupchat", Text: message})
+}
+
 //xmpp.Chat{To: roomJid, From: roomJid + "/" + fullname, Type: "groupchat", Text: message}

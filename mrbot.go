@@ -1,11 +1,6 @@
 package main
 
 import (
-	"fmt"
-	"os"
-	"strings"
-
-	xmpp "github.com/adams-sarah/go-xmpp"
 	"github.com/seblegall/mrbot/pkg/hipchat"
 )
 
@@ -22,38 +17,15 @@ var (
 	username    = "175921_5350262"
 	mentionname = "mrbot"
 	fullname    = "Mr Bot"
-	password    = os.Getenv("PASSWORD")
+	password    = "xcem7sa2"
 	roomJid     = "175921_testbot@conf.hipchat.com"
 )
 
-var bot *hipchat.Client
-var room *hipchat.Room
-
 func main() {
 
-	bot = hipchat.NewClient(hipChatJabberURL, hipChatJabberPort, username, password)
-
-	room := bot.NewRoom(roomJid, fullname)
-	room.Join()
-
-	listen(bot.Stream(mentionname))
-}
-
-func listen(stream *hipchat.Stream) {
-
-	for chatMsg := range stream.C {
-		switch {
-		case strings.Contains(chatMsg.Text, "coucou"):
-			send(fmt.Sprintf("Coucou %s !", chatMsg.From))
-
-		default:
-			send("Je ne suis pas programmé pour répondre à cela.")
-		}
-	}
-
-}
-
-func send(message string) {
-
-	bot.Client.Send(xmpp.Chat{To: roomJid, From: fullname, Type: "groupchat", Text: message})
+	hipchat := hipchat.NewClient(hipChatJabberURL, hipChatJabberPort, username, password)
+	room := hipchat.NewRoom(roomJid, fullname)
+	bot := NewBot(hipchat, room)
+	bot.Join()
+	bot.ListenAndAnswer()
 }
