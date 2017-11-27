@@ -2,7 +2,11 @@ package main
 
 import (
 	"fmt"
+	"os"
+	"os/signal"
+	"sync"
 
+	"github.com/seblegall/mrbot/pkg/gitlab"
 	"github.com/seblegall/mrbot/pkg/hipchat"
 	"github.com/spf13/viper"
 )
@@ -28,10 +32,12 @@ func main() {
 
 	hipchat := hipchat.NewClient(hipChatJabberURL, hipChatJabberPort, username, password)
 	room := hipchat.NewRoom(roomJid, fullname)
-	bot := NewBot(hipchat, room)
+	gitlab := gitlab.NewClient(gitlabURL, token)
+	bot := NewBot(hipchat, room, gitlab)
 	bot.Join()
 	bot.ListenAndAnswer()
-	bot.ListenMergeRequest()
+	bot.ListenMergeRequest(groups)
+	waitForCtrlC()
 }
 
 func setConfig() {
@@ -58,4 +64,18 @@ func setConfig() {
 	gitlabURL = viper.GetString("gitlab.url")
 	groups = viper.GetStringSlice("gitlab.groups")
 
+}
+
+func waitForCtrlC() {
+	var wg sync.WaitGroup
+	wg.Add(1)
+	var sig chan os.Signal
+
+	sig = make(chan os.Signal, 1)
+	signal.Notify(sig, os.Interrupt)
+	go func() {
+		<-sig
+		wg.Done()
+	}()
+	wg.Wait()
 }

@@ -4,20 +4,23 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/seblegall/mrbot/pkg/gitlab"
 	"github.com/seblegall/mrbot/pkg/hipchat"
 )
 
 //Bot is a robot
 type Bot struct {
-	client *hipchat.Client
-	room   *hipchat.Room
+	hipchat *hipchat.Client
+	room    *hipchat.Room
+	gitlab  *gitlab.Client
 }
 
 //NewBot creates a new bot using an hipchat client and set a room for the bot to join.
-func NewBot(client *hipchat.Client, room *hipchat.Room) *Bot {
+func NewBot(client *hipchat.Client, room *hipchat.Room, gitlab *gitlab.Client) *Bot {
 	bot := &Bot{
-		client: client,
-		room:   room,
+		hipchat: client,
+		room:    room,
+		gitlab:  gitlab,
 	}
 
 	return bot
@@ -33,7 +36,7 @@ func (b *Bot) Join() {
 func (b *Bot) ListenAndAnswer() {
 
 	go func(b *Bot) {
-		stream := b.client.Stream(mentionname)
+		stream := b.hipchat.Stream(mentionname)
 
 		for m := range stream.C {
 			b.Answer(m)
