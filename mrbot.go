@@ -36,7 +36,7 @@ func main() {
 	bot := NewBot(hipchat, room, gitlab)
 	bot.Join()
 	bot.ListenAndAnswer()
-	bot.ListenMergeRequest(groups)
+	//bot.ListenMergeRequest(groups)
 	waitForCtrlC()
 }
 
