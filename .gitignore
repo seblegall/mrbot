@@ -3,3 +3,4 @@
 .mrbot.yml
 mrbot
 /.idea
+/bin/*
