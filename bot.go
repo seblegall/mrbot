@@ -1,11 +1,9 @@
 package main
 
 import (
-	"fmt"
-	"strings"
-
 	"github.com/seblegall/mrbot/pkg/gitlab"
 	"github.com/seblegall/mrbot/pkg/hipchat"
+	"github.com/seblegall/mrbot/pkg/dialogflow"
 )
 
 //Bot is a robot
@@ -13,14 +11,16 @@ type Bot struct {
 	hipchat *hipchat.Client
 	room    *hipchat.Room
 	gitlab  *gitlab.Client
+	dialog *dialogflow.Client
 }
 
 //NewBot creates a new bot using an hipchat client and set a room for the bot to join.
-func NewBot(client *hipchat.Client, room *hipchat.Room, gitlab *gitlab.Client) *Bot {
+func NewBot(client *hipchat.Client, room *hipchat.Room, gitlab *gitlab.Client, dialog *dialogflow.Client) *Bot {
 	bot := &Bot{
 		hipchat: client,
 		room:    room,
 		gitlab:  gitlab,
+		dialog: dialog,
 	}
 
 	return bot
@@ -44,15 +44,10 @@ func (b *Bot) ListenAndAnswer() {
 	}(b)
 }
 
+
+
 //Answer makes the bot respond to a given message.
 //This is where answer rules are defined.
 func (b *Bot) Answer(m *hipchat.Message) {
-
-	switch {
-	case strings.Contains(m.Text, "coucou"):
-		b.room.Send(fmt.Sprintf("Coucou %s !", m.From))
-
-	default:
-		b.room.Send("Je ne suis pas programmé pour répondre à cela.")
-	}
+	b.room.Send(b.dialog.Query(string(m.Text)))
 }

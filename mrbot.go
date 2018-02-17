@@ -9,6 +9,7 @@ import (
 	"github.com/seblegall/mrbot/pkg/gitlab"
 	"github.com/seblegall/mrbot/pkg/hipchat"
 	"github.com/spf13/viper"
+	"github.com/seblegall/mrbot/pkg/dialogflow"
 )
 
 var (
@@ -22,9 +23,12 @@ var (
 	roomJid           string
 
 	//Gitlab
-	token     string
-	gitlabURL string
-	groups    []string
+	gitlabToken string
+	gitlabURL   string
+	groups      []string
+
+	//Dialogflow
+	dialogToken string
 )
 
 func main() {
@@ -32,11 +36,12 @@ func main() {
 
 	hipchat := hipchat.NewClient(hipChatJabberURL, hipChatJabberPort, username, password)
 	room := hipchat.NewRoom(roomJid, fullname)
-	gitlab := gitlab.NewClient(gitlabURL, token)
-	bot := NewBot(hipchat, room, gitlab)
+	gitlab := gitlab.NewClient(gitlabURL, gitlabToken)
+	dialog := dialogflow.NewClient(dialogToken)
+	bot := NewBot(hipchat, room, gitlab, dialog)
 	bot.Join()
 	bot.ListenAndAnswer()
-	bot.ListenMergeRequest(groups)
+	//bot.ListenMergeRequest(groups)
 	waitForCtrlC()
 }
 
@@ -60,9 +65,12 @@ func setConfig() {
 	roomJid = viper.GetString("hipchat.roomJid")
 
 	//Gitlab configuration
-	token = viper.GetString("gitlab.token")
+	gitlabToken = viper.GetString("gitlab.token")
 	gitlabURL = viper.GetString("gitlab.url")
 	groups = viper.GetStringSlice("gitlab.groups")
+
+	//Dialogflow configuration
+	dialogToken = viper.GetString("dialogflow.token")
 
 }
 

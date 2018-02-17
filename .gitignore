@@ -2,3 +2,5 @@
 .DS_Store
 .mrbot.yml
 mrbot
+/.idea
+/bin/*
