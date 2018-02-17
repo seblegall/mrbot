@@ -26,7 +26,7 @@ func (c *Client) Query(query string) string {
 	}
 	`, query))
 
-	req, _ := http.NewRequest("POST", c.Url, bytes.NewBuffer(payload))
+	req, _ := http.NewRequest("POST", fmt.Sprintf("%s/query",c.Url), bytes.NewBuffer(payload))
 	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", c.Token))
 	req.Header.Set("Content-Type", "application/json")
 

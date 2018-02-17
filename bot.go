@@ -49,6 +49,5 @@ func (b *Bot) ListenAndAnswer() {
 //Answer makes the bot respond to a given message.
 //This is where answer rules are defined.
 func (b *Bot) Answer(m *hipchat.Message) {
-
-	b.room.Send(b.dialog.Query(m.Text))
+	b.room.Send(b.dialog.Query(string(m.Text)))
 }

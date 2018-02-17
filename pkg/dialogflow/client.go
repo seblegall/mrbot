@@ -1,6 +1,6 @@
 package dialogflow
 
-const BaseURL = "https://api.dialogflow.com/v1/"
+const BaseURL = "https://api.dialogflow.com/v1"
 
 type Client struct {
 	Url string
