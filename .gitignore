@@ -5,3 +5,4 @@ mrbot
 /.idea
 /bin/*
 /vendor/
+/.env
