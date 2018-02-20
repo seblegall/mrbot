@@ -4,3 +4,4 @@
 mrbot
 /.idea
 /bin/*
+/vendor/
