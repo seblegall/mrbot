@@ -1,7 +1,6 @@
 package main
 
 import (
-	"github.com/seblegall/mrbot/pkg/gitlab"
 	"github.com/seblegall/mrbot/pkg/hipchat"
 	"github.com/seblegall/mrbot/pkg/dialogflow"
 )
@@ -10,16 +9,14 @@ import (
 type Bot struct {
 	hipchat *hipchat.Client
 	room    *hipchat.Room
-	gitlab  *gitlab.Client
 	dialog *dialogflow.Client
 }
 
 //NewBot creates a new bot using an hipchat client and set a room for the bot to join.
-func NewBot(client *hipchat.Client, room *hipchat.Room, gitlab *gitlab.Client, dialog *dialogflow.Client) *Bot {
+func NewBot(client *hipchat.Client, room *hipchat.Room, dialog *dialogflow.Client) *Bot {
 	bot := &Bot{
 		hipchat: client,
 		room:    room,
-		gitlab:  gitlab,
 		dialog: dialog,
 	}
 
@@ -43,8 +40,6 @@ func (b *Bot) ListenAndAnswer() {
 		}
 	}(b)
 }
-
-
 
 //Answer makes the bot respond to a given message.
 //This is where answer rules are defined.

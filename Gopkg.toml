@@ -29,10 +29,6 @@
   name = "github.com/spf13/viper"
   version = "1.0.0"
 
-[[constraint]]
-  name = "github.com/xanzy/go-gitlab"
-  version = "0.8.0"
-
 [metadata.heroku]
   root-package = "mrbot"
   go-version = "go1.9.2"
