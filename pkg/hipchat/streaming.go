@@ -7,7 +7,7 @@ import (
 	xmpp "github.com/adams-sarah/go-xmpp"
 )
 
-//Stream reprensents a chat message stream.
+//Stream represents a chat message stream.
 type Stream struct {
 	client *xmpp.Client
 	C      chan *Message

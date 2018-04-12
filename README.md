@@ -8,7 +8,7 @@ listen to "@mrbot" notification and answer using the Dialogflow AI.
 
 ## Context
 
-Dialogflow comes with a lot of pre-made integration such as Twitter, Slack of Facebook Messenger. But there is no integration with a classical Jabber server.
+Dialogflow comes with a lot of pre-made integration such as Twitter, Slack or Facebook Messenger. But there is no integration with a classical Jabber server.
 
 MrBot is a boilerplate example of connecting your Dialogfow agent with a Jabber server.
 
@@ -18,7 +18,7 @@ Once running, MrBot will connect to your Jabber (Hipchat) server and then join o
 Then, MrBot will listen all the messages sent in the room and only catch the one that begin with "@mrbot".
 
 MrBot will then catch those *notifications* messages and send them to Dialogflow.
-Dialogflow will take this message and match it to a corresponding [intent](https://dialogflow.com/docs/intents) you've defined. Then, Dialogflow will return the corresponding response depending on the *context* and your intent configuration.
+Dialogflow will take those messages and match it to a corresponding [intent](https://dialogflow.com/docs/intents) you've defined. Then, Dialogflow will return the corresponding answer depending on the *context* and your intent configuration.
 
 To be able to do that, MrBot use the [DialogFlow REST API](https://dialogflow.com/docs/reference/agent/).
 

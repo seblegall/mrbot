@@ -8,7 +8,7 @@ import (
 	"github.com/adams-sarah/go-xmpp"
 )
 
-//Client reprensents an XMPP client
+//Client represents an XMPP client
 type Client struct {
 	url      string
 	port     int

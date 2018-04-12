@@ -9,6 +9,7 @@ import (
 	"net/http"
 )
 
+//Answer represent a response returned by the Dialogflow AI to a "user says'.
 type Answer struct {
 	Result struct{
 		Speech string `json:"speech"`
@@ -16,6 +17,7 @@ type Answer struct {
 }
 
 
+//Query call Dialogflow in order to send a "user says" to the AI.
 func (c *Client) Query(query string) string {
 
 	var payload = []byte(fmt.Sprintf(`
